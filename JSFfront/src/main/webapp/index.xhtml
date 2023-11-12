@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>calculadora de notas</title>
+	<link rel="stylesheet" type="text/css" href="theme.css" />
+	<h:outputStylesheet library="webjars"
+		nombre="primeflex/3.3.1/primeflex.min.css" />
+</h:head>
+<h:body>
+
+
+
+	<h:form id="loginForm">
+    <p:outputLabel for="nombre" value="Nombre:" />
+    <p:inputText id="nombre" value="#{AdminBean.nombre}" required="true" />
+
+    <p:outputLabel for="grade1" value="Nota 1:" />
+    <p:inputText id="grade1" value="#{AdminBean.num1}" required="true" />
+
+    <p:outputLabel for="grade2" value="Nota 2:" />
+    <p:inputText id="grade2" value="#{AdminBean.num2}" required="true" />
+
+    <p:outputLabel for="grade3" value="Nota 3:" />
+    <p:inputText id="grade3" value="#{AdminBean.num3}" required="true" />
+
+    <p:commandButton value="Submit" update="result" />
+</h:form>
+
+<p:panelGrid id="result" columns="2">
+    <p:outputLabel value="Nombre:" />
+    <h:outputText  value="#{AdminBean.nombre}" />
+
+    <p:outputLabel value="Promedio:" />
+    <h:outputText  value="#{AdminBean.average}" />
+
+    <p:outputLabel value="Estado:" />
+           <p:outputLabel value="#{AdminBean.status}" styleClass="#{AdminBean.average > 3 ? 'green' : AdminBean.average == 3 ? 'yellow' : 'red'}" />
+</p:panelGrid>
+	
+
+</h:body>
+</html>
