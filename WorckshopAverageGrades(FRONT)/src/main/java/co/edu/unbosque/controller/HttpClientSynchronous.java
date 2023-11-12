@@ -32,19 +32,22 @@ public class HttpClientSynchronous {
 		HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url))
 				.setHeader("User-Agent", "Java 11 HttpClient Bot").build();
 
-		HttpResponse<String> response = null;
-		try {
-			response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	    HttpResponse<String> response = null;
+	    try {
+	        response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+	        if (response != null) {
+	            System.out.println("status code -> " + response.statusCode());
 
-		System.out.println("status code -> " + response.statusCode());
-
-		String uglyJson = response.body();
-		return prettyPrintUsingGson(uglyJson);
+	            String uglyJson = response.body();
+	            return prettyPrintUsingGson(uglyJson);
+	        } else {
+	            return "Error: No se recibió una respuesta del servidor.";
+	        }
+	    } catch (IOException | InterruptedException e) {
+	        e.printStackTrace();
+	        // Manejo de la excepción: retorno de un mensaje de error o manejo específico
+	        return "Error en la solicitud GET: " + e.getMessage();
+	    }
 	}
 
 	public static String doPost(String url, String json) {
@@ -54,17 +57,21 @@ public class HttpClientSynchronous {
 				.uri(URI.create(url)).setHeader("User-Agent", "Java 11 HttpClient Bot") // add request header
 				.header("Content-Type", "application/json").build();
 
-		HttpResponse<String> response = null;
-		try {
-			response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("status code -> " + response.statusCode());
+		   HttpResponse<String> response = null;
+		    try {
+		        response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+		        if (response != null) {
+		            System.out.println("status code -> " + response.statusCode());
 
-		return prettyPrintUsingGson(response.body());
+		            return prettyPrintUsingGson(response.body());
+		        } else {
+		            return "Error: No se recibió una respuesta del servidor.";
+		        }
+		    } catch (InterruptedException | IOException e) {
+		        e.printStackTrace();
+		        // Manejo de la excepción: retorno de un mensaje de error o manejo específico
+		        return "Error en la solicitud POST: " + e.getMessage();
+		    }
 	}
 
 	public static String doPut(String url, String json) {
