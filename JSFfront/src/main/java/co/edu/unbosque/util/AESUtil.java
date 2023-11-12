@@ -86,14 +86,5 @@ public class AESUtil {
 		return encrypt(key, iv, plainText);
 	}
 
-	/*
-	public static void main(String[] args) {
-		String text = "hola mundo";
-		String iv = "holamundohfhfhtf";
-		String key = "holamundohfhfhtf";
-		System.out.println(iv.getBytes().length);
-		String encoded = encrypt(key, iv, text);
-		System.out.println(encoded);
-	}
-	*/
+
 }

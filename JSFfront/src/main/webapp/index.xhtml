@@ -15,7 +15,7 @@
 
 
 
-	<h:form id="loginForm">
+	<h:form id="AdminForm">
     <p:outputLabel for="nombre" value="Nombre:" />
     <p:inputText id="nombre" value="#{AdminBean.nombre}" required="true" />
 
@@ -39,9 +39,15 @@
     <h:outputText  value="#{AdminBean.average}" />
 
     <p:outputLabel value="Estado:" />
-           <p:outputLabel value="#{AdminBean.status}" styleClass="#{AdminBean.average > 3 ? 'green' : AdminBean.average == 3 ? 'yellow' : 'red'}" />
+           <p:outputLabel value="#{AdminBean.status}" styleClass="#{AdminBean.average > 3 ? 'Aprobado' : AdminBean.average == 3 ? '3 es nota lo demas es lujo' : 'Reprobado'}" />
 </p:panelGrid>
-	
-
+<h:form>
+    
+    <p:panel header="Historial de Busquedas">
+        <p:dataList value="#{historialBean.historial}" var="busqueda">
+            <h:outputText value="#{busqueda}" />
+        </p:dataList>
+    </p:panel>
+</h:form>
 </h:body>
 </html>
