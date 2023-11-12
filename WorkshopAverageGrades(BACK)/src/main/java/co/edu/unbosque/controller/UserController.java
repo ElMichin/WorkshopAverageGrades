@@ -36,17 +36,20 @@ public class UserController {
 
 	@PostMapping(path = "/createuserjson", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> createNewUserWithJson(@RequestBody User newUser) {
-		String result = userServ.calculateAverage(newUser.getFirstCut(), newUser.getSecondCut(), newUser.getThirdCut()); 
+//		String result = userServ.calculateAverage(newUser.getFirstCut(), newUser.getSecondCut(), newUser.getThirdCut()); 
+		User desecrypterUser = new User(aes.decrypt(newUser.getUsername()), aes.decrypt(newUser.getFirstCut()),
+				aes.decrypt(newUser.getSecondCut()),
+				aes.decrypt(newUser.getThirdCut()), aes.decrypt(newUser.getResult()));
+
 		User encryptedUser = new User(aes.encrypt(newUser.getUsername()), aes.encrypt(newUser.getFirstCut()),
 				aes.encrypt(newUser.getSecondCut()), aes.encrypt(newUser.getThirdCut()),
-				aes.encrypt(result));
+				aes.encrypt(newUser.getResult()));
 		int status = userServ.create(encryptedUser);
 		if (status == 0) {
 			return new ResponseEntity<String>("User succesfuly created", HttpStatus.CREATED);
-		} 
-			return new ResponseEntity<String>("Error creating the user.", HttpStatus.NOT_ACCEPTABLE);
 		}
-	
+		return new ResponseEntity<String>("Error creating the user.", HttpStatus.NOT_ACCEPTABLE);
+	}
 
 	@GetMapping(path = "/getall")
 	public ResponseEntity<List<User>> getAll() {
@@ -60,8 +63,8 @@ public class UserController {
 		}
 		if (users.isEmpty()) {
 			return new ResponseEntity<List<User>>(descryptedUsers, HttpStatus.NO_CONTENT);
-		} 
-			return new ResponseEntity<List<User>>(descryptedUsers, HttpStatus.ACCEPTED);
 		}
-
+		return new ResponseEntity<List<User>>(descryptedUsers, HttpStatus.ACCEPTED);
 	}
+
+}
